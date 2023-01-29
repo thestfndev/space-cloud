@@ -1,6 +1,8 @@
-name: ci
+name: docker-build
 
 on:
+  workflow_run:
+    workflows: ["pre-commit"]
   push:
     branches:
       - "main"
