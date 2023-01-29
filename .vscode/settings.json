@@ -1,0 +1,12 @@
+{
+  "python.formatting.provider": "black",
+  "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintArgs": [
+    "--load-plugins=pylint_django",
+    "--django-settings-module=app.settings",
+    "--disable=missing-class-docstring",
+    "--disable=missing-function-docstring",
+    "--disable=missing-module-docstring",
+  ],
+}
