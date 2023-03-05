@@ -11,7 +11,7 @@ class DetailUploadTaskSerializer(serializers.ModelSerializer):
 class ListUploadTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadTask
-        fields = ["filename", "timestamp", "status"]
+        fields = ["pk", "filename", "timestamp", "status"]
 
 
 class UploadTaskInitializeSerializer(serializers.Serializer):
