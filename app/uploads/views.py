@@ -6,6 +6,7 @@ from fitsfiles.services import FitsService
 from rest_framework import status
 from rest_framework.generics import (
     CreateAPIView,
+    DestroyAPIView,
     ListAPIView,
     RetrieveUpdateAPIView,
     UpdateAPIView,
@@ -71,6 +72,19 @@ class CreateUploadView(CreateAPIView):
         final_serializer.save()
 
         return Response("OK")
+
+
+class DeleteUploadView(DestroyAPIView):
+
+    queryset = UploadTask.objects.all()
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        filepath = Path(MEDIA_ROOT, instance.local_destination, instance.final_filename)
+        if os.path.isfile(filepath):
+            filepath.unlink()
+        instance.delete()
+        return Response("ok")
 
 
 class FitsHeaderUpdateView(UpdateAPIView):
