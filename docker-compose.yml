@@ -13,6 +13,8 @@ services:
     ports:
       - 8000:8000
       - 3000:3000
+    env_file:
+    - .env
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
@@ -24,6 +26,8 @@ services:
     command: celery -A app worker --loglevel=INFO
     volumes:
       - ./app:/app
+    env_file:
+    - .env
   rabbit:
     image: rabbitmq
     ports:
