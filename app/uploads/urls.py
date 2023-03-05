@@ -11,4 +11,5 @@ urlpatterns = [
         views.FitsHeaderUpdateView.as_view(),
         name="upload-header-update",
     ),
+    path("export/<str:id>", views.S3ExportView.as_view(), name="s3-export"),
 ]
