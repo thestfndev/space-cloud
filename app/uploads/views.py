@@ -69,9 +69,9 @@ class CreateUploadView(CreateAPIView):
             }
         )
         final_serializer.is_valid(raise_exception=True)
-        final_serializer.save()
+        instance = final_serializer.save()
 
-        return Response("OK")
+        return Response(instance.pk)
 
 
 class DeleteUploadView(DestroyAPIView):
