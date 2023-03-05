@@ -51,3 +51,17 @@ def test_upload_creation(_, client):
     assert upload.error_message is None
     assert upload.initial_fits_header == {}
     assert upload.fits_header is None
+
+
+@pytest.mark.django_db
+def test_upload_deletion(client):
+    instance = UploadTask.objects.create(
+        filename="pic.fits",
+        final_filename="pic.fits",
+        local_destination="test",
+        status="Done",
+    )
+    url = reverse("upload-delete", kwargs={"pk": instance.pk})
+    response = client.delete(url)
+    assert response.status_code == 200
+    assert UploadTask.objects.filter(pk=instance.pk).count() == 0
