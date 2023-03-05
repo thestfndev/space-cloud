@@ -1,8 +1,10 @@
-import json
 import logging
 
+import matplotlib.pyplot as plt
 from astropy.io import fits
 from astropy.io.fits import Header
+from auto_stretch.stretch import Stretch
+from skimage.transform import resize
 
 logger = logging.getLogger()
 
@@ -31,3 +33,16 @@ class FitsService:
         with fits.open(file, mode="readonly") as fits_file:
             fits_head: Header = fits_file.pop().header
             return FitsService.header_to_dict(fits_head)
+
+    @staticmethod
+    def generate_thumbnail(path):
+        image_data = fits.getdata(path, ext=0)
+
+        stretched_image = Stretch().stretch(image_data)
+        ratio = stretched_image.shape[0] / stretched_image.shape[1]
+        size = (300 * ratio, 300)
+
+        thumbnail_filepath = path.with_suffix(".jpg")
+
+        image_resized = resize(stretched_image, size, anti_aliasing=True)
+        plt.imsave(thumbnail_filepath, image_resized, cmap="gray")

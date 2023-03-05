@@ -62,6 +62,8 @@ class CreateUploadView(CreateAPIView):
         except OSError as exception:
             return Response(str(exception), status=status.HTTP_400_BAD_REQUEST)
 
+        FitsService.generate_thumbnail(filepath)
+
         final_serializer = serializers.DetailUploadTaskSerializer(
             data={
                 "filename": filename,
