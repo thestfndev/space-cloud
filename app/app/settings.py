@@ -127,3 +127,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 MEDIA_ROOT = "storage/uploads/"
+
+CELERY_BROKER_URL = "pyamqp://rabbit:5672"
+CELERY_RESULT_BACKEND = "rpc://"
