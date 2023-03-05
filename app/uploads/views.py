@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
+    GenericAPIView,
     ListAPIView,
     RetrieveUpdateAPIView,
     UpdateAPIView,
@@ -15,6 +16,7 @@ from rest_framework.generics import (
 from rest_framework.response import Response
 from uploads import serializers
 from uploads.models import DONE, UploadTask
+from uploads.tasks import export_to_s3
 
 from app.settings import MEDIA_ROOT
 
@@ -106,3 +108,9 @@ class FitsHeaderUpdateView(UpdateAPIView):
         instance.save()
 
         return Response("ok")
+
+
+class S3ExportView(GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        export_to_s3.delay(kwargs["id"])
+        return Response("let's go")
