@@ -28,6 +28,10 @@ services:
       - ./app:/app
     env_file:
     - .env
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
   rabbit:
     image: rabbitmq
     ports:
