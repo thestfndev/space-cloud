@@ -40,17 +40,16 @@ def test_upload_creation(_, client):
 
     response = client.post(url, {"file": test_image, "destination": "dest"})
 
-    uploaded_pk = response.content.decode()
     assert response.status_code == 200
-    upload = UploadTask.objects.get(pk=uploaded_pk)
-    assert upload.id == int(uploaded_pk)
-    assert upload.filename == "myimage.fits"
-    assert upload.final_filename == "myimage.fits"
-    assert upload.local_destination == "dest"
-    assert upload.status == "Done"
-    assert upload.error_message is None
-    assert upload.initial_fits_header == {}
-    assert upload.fits_header is None
+    upload_data = response.json()
+    assert upload_data["id"] is not None
+    assert upload_data["filename"] == "myimage.fits"
+    assert upload_data["final_filename"] == "myimage.fits"
+    assert upload_data["local_destination"] == "dest"
+    assert upload_data["status"] == "Done"
+    assert upload_data["error_message"] is None
+    assert upload_data["initial_fits_header"] == {}
+    assert upload_data["fits_header"] is None
 
 
 @pytest.mark.django_db
