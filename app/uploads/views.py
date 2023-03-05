@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from django.core.files.uploadedfile import UploadedFile
+from django.http import JsonResponse
 from fitsfiles.services import FitsService
 from rest_framework import status
 from rest_framework.generics import (
@@ -71,7 +72,7 @@ class CreateUploadView(CreateAPIView):
         final_serializer.is_valid(raise_exception=True)
         final_serializer.save()
 
-        return Response("OK")
+        return JsonResponse(final_serializer.data)
 
 
 class DeleteUploadView(DestroyAPIView):
