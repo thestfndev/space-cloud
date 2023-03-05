@@ -19,3 +19,12 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
+  worker:
+    build: .
+    command: celery -A app worker --loglevel=INFO
+    volumes:
+      - ./app:/app
+  rabbit:
+    image: rabbitmq
+    ports:
+      - 5672:5672
